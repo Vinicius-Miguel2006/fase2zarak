@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Humor Dinâmico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="card">
+        <h1>Como você está se sentindo hoje?</h1>
+
+        <div class="botoes">
+            <button class="btn feliz" onclick="selecionarHumor('feliz')">Feliz</button>
+            <button class="btn neutro" onclick="selecionarHumor('neutro')">Neutro</button>
+            <button class="btn triste" onclick="selecionarHumor('triste')">Triste</button>
+            <button class="btn raiva" onclick="selecionarHumor('raiva')">Irritado</button>
+            <button class="btn ansioso" onclick="selecionarHumor('ansioso')">Ansioso</button>
+            <button class="btn mal" onclick="selecionarHumor('mal')">Me sentindo mal</button>
+
+            
+            <button id="btnAtendimento" class="btn atendimentoHumano" style="display:none;" onclick="abrirChat()">
+                Atendimento Humano
+            </button>
+        </div>
+
+        <h3>Ou descreva seu humor:</h3>
+        <input type="text" id="textoHumor" placeholder="Digite como você está..." oninput="detectarHumor()">
+
+        <p id="mensagem"></p>
+    </div>
+
+    <div id="chatBox" class="chat-box">
+        <div class="chat-header">
+            Atendimento Humano
+            <span class="closeChat" onclick="fecharChat()">×</span>
+        </div>
+
+        <div class="chat-body" id="chatArea"></div>
+
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Digite sua mensagem...">
+            <button class="btn enviar" onclick="enviarMensagem()">Enviar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
