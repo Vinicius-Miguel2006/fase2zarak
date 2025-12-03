@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Cliente</title>
+
+    <style>
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+        }
+
+        .box {
+            width: 350px;
+            padding: 25px;
+            background: #222;
+            border-radius: 10px;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            background: #2196f3;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1e88e5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Cadastrar Cliente</h2>
+
+        <input type="text" id="nome" placeholder="Nome completo">
+        <input type="email" id="email" placeholder="E-mail">
+        <input type="password" id="senha" placeholder="Senha">
+
+        <button onclick="cadastrar()">Cadastrar</button>
+
+        <p style="margin-top:10px;">
+            Já tem conta? <a href="paginaLogin.html" style="color:#4caf50;">Faça login</a>
+        </p>
+    </div>
+
+<script>
+    function cadastrar() {
+        let nome = document.getElementById("nome").value;
+        let email = document.getElementById("email").value;
+        let senha = document.getElementById("senha").value;
+
+        if (!nome || !email || !senha) {
+            alert("Preencha todos os campos!");
+            return;
+        }
+
+        let clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+
+        // verificar se já existe
+        if (clientes.some(c => c.email === email)) {
+            alert("Este e-mail já está cadastrado!");
+            return;
+        }
+
+        clientes.push({ nome, email, senha });
+        localStorage.setItem("clientes", JSON.stringify(clientes));
+
+        alert("Cadastro realizado com sucesso!");
+        window.location.href = "paginaLogin.html";
+    }
+</script>
+
+</body>
+</html>

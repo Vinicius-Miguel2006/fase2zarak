@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Humor Dinâmico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<!-- React -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+<script type="text/babel">
+
+function Checklist() {
+    const itensPadrao = [
+        { nome: "Bebi água hoje", marcado: false },
+        { nome: "Fiz uma pausa para respirar", marcado: false },
+        { nome: "Tive um momento só meu", marcado: false },
+        { nome: "Falei com alguém importante", marcado: false },
+        { nome: "Alonguei meu corpo", marcado: false }
+    ];
+
+    const [itens, setItens] = React.useState(() => {
+        const salvo = localStorage.getItem("checklist_autocuidado");
+        return salvo ? JSON.parse(salvo) : itensPadrao;
+    });
+
+    function alternarItem(index) {
+        const novo = [...itens];
+        novo[index].marcado = !novo[index].marcado;
+        setItens(novo);
+    }
+
+    React.useEffect(() => {
+        localStorage.setItem("checklist_autocuidado", JSON.stringify(itens));
+    }, [itens]);
+
+    return (
+        <div style={{
+            background: "#ffffff",
+            padding: "25px",
+            borderRadius: "18px",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.1)",
+            marginTop: "20px",
+            textAlign: "left"
+        }}>
+            {itens.map((item, i) => (
+                <label 
+                    key={i}
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                        marginBottom: "14px",
+                        fontSize: "17px",
+                        cursor: "pointer",
+                        color: item.marcado ? "#1d9100" : "#333",
+                        transition: "0.3s"
+                    }}
+                >
+                    <input 
+                        type="checkbox" 
+                        checked={item.marcado}
+                        onChange={() => alternarItem(i)}
+                        style={{
+                            width: "20px",
+                            height: "20px",
+                            cursor: "pointer",
+                            accentColor: "#1d9100",
+                        }}
+                    />
+                    {item.nome}
+                </label>
+            ))}
+
+            <p style={{
+                marginTop: "12px",
+                fontSize: "14px",
+                color: "#555"
+            }}>
+                Seu progresso é salvo automaticamente.
+            </p>
+        </div>
+    );
+}
+
+ReactDOM.createRoot(document.getElementById("react-checklist"))
+    .render(<Checklist />);
+
+</script>
+
+
+
+<body>
+
+    <div class="card">
+        <h1>Como você está se sentindo hoje?</h1>
+
+        
+
+        <div class="botoes">
+            <button class="btn feliz" onclick="selecionarHumor('feliz')">Feliz</button>
+            <button class="btn neutro" onclick="selecionarHumor('neutro')">Neutro</button>
+            <button class="btn triste" onclick="selecionarHumor('triste')">Triste</button>
+            <button class="btn raiva" onclick="selecionarHumor('raiva')">Irritado</button>
+            <button class="btn ansioso" onclick="selecionarHumor('ansioso')">Ansioso</button>
+            <button class="btn mal" onclick="selecionarHumor('mal')">Me sentindo mal</button>
+
+            
+            <button id="btnAtendimento" class="btn atendimentoHumano" style="display:none;" onclick="abrirChat()">
+                Atendimento Humano
+            </button>
+        </div>
+
+        <h2 style="margin-top:40px;">Checklist de Autocuidado</h2>
+<div id="react-checklist"></div>
+
+        <h3>Ou descreva seu humor:</h3>
+        <input type="text" id="textoHumor" placeholder="Digite como você está..." oninput="detectarHumor()">
+
+        <p id="mensagem"></p>
+    </div>
+
+    
+
+
+    <div id="chatBox" class="chat-box">
+        <div class="chat-header">
+            Atendimento Humano
+            <span class="closeChat" onclick="fecharChat()">×</span>
+        </div>
+
+        <div class="chat-body" id="chatArea"></div>
+
+        <div class="chat-footer">
+            <input type="text" id="chatInput" placeholder="Digite sua mensagem...">
+            <button class="btn enviar" onclick="enviarMensagem()">Enviar</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
